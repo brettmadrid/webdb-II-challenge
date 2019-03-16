@@ -7,7 +7,7 @@
 		"start": "nodemon index.js",
 		"server": "nodemon"
 	},
-	"author": "Lambda School",
+	"author": "Brett Madrid",
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.16.4",
