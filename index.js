@@ -64,6 +64,23 @@ server.put('/zoos/:id', async (req, res) => {
   }
 })
 
+// DELETE ENDPOINT
+server.delete('/zoos/:id', async (req, res) => {
+  try {
+    const deleted = await db('zoos')
+    .where( { id: req.params.id })
+    .del()
+
+    if (deleted > 0) {
+      res.status(204).json({ message: 'Successfully deleted!'});
+    } else {
+      res.status(404).json({ message: "Records not found"})
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Houston, we have a problem! Failed to delete record."});
+  }
+})
+
 const port = 5000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
