@@ -21,6 +21,18 @@ server.get('/zoos', async (req, res) => {
   }
 })
 
+// GET by ID ENPOINT
+server.get('/zoos/:id', async (req, res) => {
+  try {
+    const zoo = await db('zoos')
+    .where({id: req.params.id})
+    .first();
+    res.status(200).json(zoo)
+  } catch (error) {
+    res.status(500).json({ message: "Houston, we have a problem! Failed to retrieve records."})
+  }
+})
+
 // POST ENDPOINT
 server.post('/zoos', async (req, res) => {
   try {
@@ -34,6 +46,23 @@ server.post('/zoos', async (req, res) => {
     res.status(500).json({ message: "Houston, we have a problem! Failed to insert record."});
   }
 });
+
+// PUT ENDPOINT
+server.put('/zoos/:id', async (req, res) => {
+  try {
+    const id = await db('zoos')
+    .where({ id: req.params.id })
+    .update( req.body )
+
+    if (id > 0) {
+      res.status(201).json({ message: "Successfully updated!"});
+      } else {
+        res.status(404).json({ message: "Record not found to update"})
+      }
+  } catch (error) {
+    res.status(500).json({ message: "Houston, we have a problem! Failed to insert record."});
+  }
+})
 
 const port = 5000;
 server.listen(port, function() {
